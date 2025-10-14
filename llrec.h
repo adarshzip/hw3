@@ -89,7 +89,7 @@ Node* llfilter(Node* head, Comp pred)
     head = head->next; 
 
     Node* returnVal = llfilter(head, pred);
-    if (!pred.operator(tempHead->val)){
+    if (! pred(tempHead->val)){
         tempHead->next = returnVal;
         returnVal = tempHead; 
     }
