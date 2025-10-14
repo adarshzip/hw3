@@ -67,7 +67,11 @@ void dealloc(Node* head)
 //   function object struct declarations
 // -----------------------------------------------
 
-
+struct IsOdd {
+    bool operator()(int val) {
+        return val % 2 != 0; 
+    }
+};
 
 
 
@@ -86,10 +90,17 @@ int main(int argc, char* argv[])
     print(head);
 
     // Test out your linked list code
+    IsOdd tester; 
 
+    cout << "Original list: ";
+    print(head); 
 
+    Node* filtered = llfilter(head, tester);
+    cout << "Filtered list: ";
+    print(filtered);
 
-    
+    dealloc(filtered);
+
     return 0;
 
 }
