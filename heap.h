@@ -2,6 +2,7 @@
 #define HEAP_H
 #include <functional>
 #include <stdexcept>
+#include <vector>
 
 template <typename T, typename PComparator = std::less<T> >
 class Heap
@@ -68,7 +69,7 @@ private:
 
 // Add implementation of member functions here
 template <typename T, typename PComparator>
-Heap<T, PComparator>::Heap(int m=2, PComparator c = PComparator()) {
+Heap<T, PComparator>::Heap(int m, PComparator c = PComparator()) {
   m_ = m; 
   comp_ = c; 
 }
@@ -79,11 +80,11 @@ Heap<T, PComparator>::~Heap() {
 
 template <typename T, typename PComparator>
 void Heap<T, PComparator>::push(const T& item) {
-  size_t item_pos = data_.size(); 
+  size_t item_pos = this->data_.size(); 
   data_.push_back(item); 
 
   while (item_pos > 0 && comp_(data_[item_pos], data_[(item_pos - 1)/m])){
-    std::swap(data_[item_pos], data_[(item_pos - 1)/m]);
+    std::swap(data_[item_pos], data_[(item_pos - 1)/m_]);
     item_pos = (item_pos - 1)/m; 
   }
 }
@@ -104,7 +105,7 @@ T const & Heap<T,PComparator>::top() const
   }
   // If we get here we know the heap has at least 1 item
   // Add code to return the top element
-  return data_.front(); 
+  return this->data_.front(); 
 }
 
 
@@ -120,7 +121,7 @@ void Heap<T,PComparator>::pop()
     throw std::underflow_error("Heap is empty"); 
   }
 
-  if(data_.size() == 1){
+  if(this->data_.size() == 1){
     data_.pop_back(); 
     return; 
   }
@@ -149,7 +150,7 @@ void Heap<T,PComparator>::pop()
     }
 
     if (comp_(data_[bestChild], data_[item_pos])){
-      std::swap(data_[bestChild], data_[item_pos]);
+      std::swap(this->data_[bestChild], data_[item_pos]);
       item_pos = bestChild; 
     }
     else {
@@ -160,12 +161,12 @@ void Heap<T,PComparator>::pop()
 
 template <typename T, typename PComparator>
 bool Heap<T,PComparator>::empty() const {
-  return (data_.size() == 0);
+  return (this->data_.size() == 0);
 }
 
 template <typename T, typename PComparator>
 size_t Heap<T,PComparator>::size() const {
-  return (data_.size());
+  return (this->data_.size());
 }
 
 
