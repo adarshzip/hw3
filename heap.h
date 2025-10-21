@@ -85,7 +85,7 @@ void Heap<T, PComparator>::push(const T& item) {
 
   while (item_pos > 0 && comp_(data_[item_pos], data_[(item_pos - 1)/m_])){
     std::swap(data_[item_pos], data_[(item_pos - 1)/m_]);
-    item_pos = (item_pos - 1)/m; 
+    item_pos = (item_pos - 1)/m_; 
   }
 }
 
