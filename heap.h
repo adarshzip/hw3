@@ -64,8 +64,6 @@ private:
   int m_; 
   PComparator comp_;
   std::vector<T> data_; 
-  
-  void swap(size_t pos); 
 };
 
 // Add implementation of member functions here
@@ -138,28 +136,37 @@ void Heap<T,PComparator>::pop()
       break; 
     }
 
-    size_t max_bound = data_.size() - (item_pos * m_ + m_); 
-    if (max_bound > m_){ // checks how many children. 
-      max_bound = m_; 
-    }
+    bestChild = item_pos * m_ + 1; 
 
-    for(int i = 1; i < max_bound; i++){
-      if(! comp_(data_[item_pos*m_ + bestChild], data_[item_pos*m_ + i])){
-        bestChild = i; 
+    for (int i = 2; i <= m_; i++){
+      if (item_pos * m_ + i >= data_.size()){
+        break; 
+      }
+
+      if (comp_(data_[item_pos * m_ + i], data_[bestChild])) {
+        bestChild = item_pos * m_ + i;
       }
     }
 
-    if(item_pos < data_.size() && comp_(data_[item_pos * m_ + bestChild], data_[item_pos])){
-      std::swap(data_[item_pos], data_[item_pos * m_ + bestChild]); 
-      item_pos = item_pos * m_ + bestChild; 
+    if (comp_(data_[bestChild], data_[item_pos])){
+      std::swap(data_[bestChild], data_[item_pos]);
+      item_pos = bestChild; 
     }
     else {
       break; 
     }
   }
-
 }
 
+template <typename T, typename PComparator>
+bool Heap<T,PComparator>::empty() const {
+  return (data_.size() == 0);
+}
+
+template <typename T, typename PComparator>
+size_t Heap<T,PComparator>::size() const {
+  return (data_.size());
+}
 
 
 #endif
