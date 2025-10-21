@@ -96,24 +96,22 @@ NotGate::NotGate(Wire* a, Wire* o) : Gate(1, o) {
 Event* NotGate::update(uint64_t current_time){
 	char state = '1';
 	Event* e = nullptr;
-	for(auto w : m_inputs)
-	{
-		char in = w->getState();
-		if(in == '1')
-		{
-			state = '0';
-			break;
-		}
-		else if(in == 'X')
-		{
-			state = 'X';
-		}
+
+	if (m_inputs[0]->getState() == '1'){
+		state = '0';
 	}
-	if(state != m_current_state)
-	{
-    m_current_state = state;
+	else if (m_inputs[0]->getState() == '0'){
+		state = '1';
+	}
+	else {
+		state = 'X';
+	}
+
+	if(state != m_current_state) {
+    	m_current_state = state;
 		uint64_t next = current_time + m_delay;
 		e = new Event {next,m_output,state};
 	}
+
   	return e;
 }
