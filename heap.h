@@ -69,7 +69,7 @@ private:
 
 // Add implementation of member functions here
 template <typename T, typename PComparator>
-Heap<T, PComparator>::Heap(int m, PComparator c = PComparator()) {
+Heap<T, PComparator>::Heap(int m, PComparator c) {
   m_ = m; 
   comp_ = c; 
 }
